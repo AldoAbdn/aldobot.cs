@@ -9,7 +9,11 @@ internal class Program
 
     private static async Task Main()
     {
-        _client = new DiscordSocketClient();
+        var config = new DiscordSocketConfig
+        {
+            GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent
+        };
+        _client = new DiscordSocketClient(config);
         _client.Log += Log;
         _commandHandler = new CommandHandler(_client, new Discord.Commands.CommandService());
         await _commandHandler.InstallCommandsAsync();
