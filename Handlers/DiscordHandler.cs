@@ -7,15 +7,19 @@ namespace aldobot.Handlers
 {
     internal class DiscordHandler
     {
-        private readonly DiscordSocketClient _client;
+        public DiscordSocketClient Client { get; }
         private readonly CommandService _commands;
 
-        public DiscordHandler(DiscordSocketClient client, CommandService commands)
+        public DiscordHandler()
         {
-            _commands = commands;
-            _client = client;
-            _client.MessageReceived += HandleCommandAsync;
-            _client.Log += Log;
+            _commands = new CommandService();
+            var config = new DiscordSocketConfig
+            {
+                GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent
+            };
+            Client = new DiscordSocketClient(config);
+            Client.MessageReceived += HandleCommandAsync;
+            Client.Log += Log;
         }
 
         public async Task InstallCommandsAsync()
@@ -31,11 +35,11 @@ namespace aldobot.Handlers
             int argPos = 0;
 
             if (!(message.HasCharPrefix('!', ref argPos) ||
-                message.HasMentionPrefix(_client.CurrentUser, ref argPos)) ||
+                message.HasMentionPrefix(Client.CurrentUser, ref argPos)) ||
                 message.Author.IsBot)
                 return;
 
-            var context = new SocketCommandContext(_client, message);
+            var context = new SocketCommandContext(Client, message);
 
             await _commands.ExecuteAsync(
                 context: context,
@@ -47,6 +51,13 @@ namespace aldobot.Handlers
         {
             Console.WriteLine(msg.ToString());
             return Task.CompletedTask;
+        }
+
+        public async Task RunAsync()
+        {
+            string token = Environment.GetEnvironmentVariable("DISCORD_TOKEN") ?? throw new InvalidOperationException("Token not found in environment variables.");
+            await Client.LoginAsync(TokenType.Bot, token);
+            await Client.StartAsync();
         }
     }
 }
