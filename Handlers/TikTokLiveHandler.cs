@@ -6,7 +6,7 @@ using TikTokLiveSharp.Events;
 
 namespace aldobot.Handlers
 {
-    internal class TikTokLiveHandler
+    internal class TikTokLiveHandler : IHandler
     {
         private ClientSettings _tikTokClientSettings = new ClientSettings();
         private TikTokLiveClient _tikTokLiveClient;
@@ -77,6 +77,11 @@ namespace aldobot.Handlers
         public async Task RunAsync()
         {
             await StartTikTok();
+        }
+
+        public Task SetupAsync()
+        {
+            return Task.CompletedTask;
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace aldobot.Handlers
 {
-    internal class DiscordHandler
+    internal class DiscordHandler : IHandler
     {
         public DiscordSocketClient Client { get; }
         private readonly CommandService _commands;
@@ -22,7 +22,7 @@ namespace aldobot.Handlers
             Client.Log += Log;
         }
 
-        public async Task InstallCommandsAsync()
+        public async Task SetupAsync()
         {
             await _commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
         }
