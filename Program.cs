@@ -1,7 +1,4 @@
 ﻿using aldobot.Handlers;
-using Discord.WebSocket;
-using TikTokLiveSharp.Client;
-using TikTokLiveSharp.Client.Config;
 
 internal class Program
 {
@@ -25,7 +22,8 @@ internal class Program
 
     private static async Task SetupHandlers()
     {
-        await _discordHandler.InstallCommandsAsync();
+        await _discordHandler.SetupAsync();
+        await _tiktokHandler.SetupAsync();
     }
 
     private static async Task Run()
