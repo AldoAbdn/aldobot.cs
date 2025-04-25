@@ -1,18 +1,20 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
 using System.Reflection;
 
-namespace aldobot
+namespace aldobot.Handlers
 {
-    internal class CommandHandler
+    internal class DiscordHandler
     {
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
 
-        public CommandHandler(DiscordSocketClient client, CommandService commands)
+        public DiscordHandler(DiscordSocketClient client, CommandService commands)
         {
             _commands = commands;
             _client = client;
+            _client.Log += Log;
         }
 
         public async Task InstallCommandsAsync()
@@ -39,6 +41,12 @@ namespace aldobot
                 context: context,
                 argPos: argPos,
                 services: null);
+        }
+
+        private static Task Log(LogMessage msg)
+        {
+            Console.WriteLine(msg.ToString());
+            return Task.CompletedTask;
         }
     }
 }
