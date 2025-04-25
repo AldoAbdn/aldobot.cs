@@ -14,12 +14,12 @@ namespace aldobot.Handlers
         {
             _commands = commands;
             _client = client;
+            _client.MessageReceived += HandleCommandAsync;
             _client.Log += Log;
         }
 
         public async Task InstallCommandsAsync()
         {
-            _client.MessageReceived += HandleCommandAsync;
             await _commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
         }
 
