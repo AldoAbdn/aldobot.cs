@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using TikTokLiveSharp.Client;
-using TikTokLiveSharp.Client.Config;
 using TikTokLiveSharp.Events;
 
 namespace aldobot.Handlers
