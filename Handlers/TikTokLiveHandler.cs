@@ -43,7 +43,6 @@ namespace aldobot.Handlers
         private async void OnLiveEnded(TikTokLiveClient client, ControlMessage e)
         {
             await SendMessage("Live Stream Ended!");
-            await StartTikTok();
         }
 
         private void SetupTikTokLiveClient()
