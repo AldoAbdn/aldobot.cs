@@ -18,7 +18,7 @@ namespace aldobot.Modules
         [Summary("Unban a user")]
         [RequireUserPermission(GuildPermission.BanMembers)]
         [RequireBotPermission(GuildPermission.BanMembers)]
-        public async Task Unban(IGuildUser user)
+        public async Task Unban(ulong user)
         {
             await Context.Guild.RemoveBanAsync(user);
         }
