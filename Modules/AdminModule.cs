@@ -1,28 +1,24 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 
 namespace aldobot.Modules
 {
     public class AdminModule : ModuleBase<SocketCommandContext>
     {
-        [Command("admin")]
-        [Summary("Admin commands")]
-        public async Task Admin()
-        {
-            await ReplyAsync("Admin commands");
-        }
-
         [Command("ban")]
         [Summary("Ban a user")]
-        public async Task Ban([Remainder] string user)
+        public async Task Ban(IGuildUser user, string reason = "", int days = 0)
         {
+            await Context.Guild.AddBanAsync(user, days, reason);
             await ReplyAsync($"Banned {user}");
         }
 
-        [Command("kick")]
-        [Summary("Kick a user")]
-        public async Task Kick([Remainder] string user)
+        [Command("unban")]
+        [Summary("Unban a user")]
+        public async Task Unban(IGuildUser user)
         {
-            await ReplyAsync($"Kicked {user}");
+            await Context.Guild.RemoveBanAsync(user);
+            await ReplyAsync($"Unbanned {user}");
         }
     }
 }
