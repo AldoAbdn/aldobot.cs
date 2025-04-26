@@ -18,9 +18,9 @@ namespace aldobot.Handlers
             string userName = Environment.GetEnvironmentVariable("TIKTOK_USERNAME") ?? throw new InvalidOperationException("Username not found in environment variables.");
             _tikTokLiveClient = new TikTokLiveClient(userName, "");
             _discordClient = discordClient;
+            Connect();
             string channelId = Environment.GetEnvironmentVariable("DISCORD_LIVE_CHANNEL_ID") ?? throw new InvalidOperationException("Channel ID not found in environment variables.");
             _channelId = ulong.Parse(channelId);
-            Connect();
         }
 
         private void Connect()
@@ -53,6 +53,7 @@ namespace aldobot.Handlers
             _tikTokClientSettings.SkipRoomInfo = true;
             string userName = Environment.GetEnvironmentVariable("TIKTOK_USERNAME") ?? throw new InvalidOperationException("Username not found in environment variables.");
             _tikTokLiveClient = new TikTokLiveClient(userName, "");
+            Connect();
         }
 
         private async Task StartTikTok()
