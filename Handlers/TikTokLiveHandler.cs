@@ -43,6 +43,7 @@ namespace aldobot.Handlers
         private async void OnLiveEnded(TikTokLiveClient client, ControlMessage e)
         {
             await SendMessage("Live Stream Ended!");
+            await StartTikTok();
         }
 
         private void SetupTikTokLiveClient()
@@ -56,7 +57,7 @@ namespace aldobot.Handlers
         {
             await Task.Run(async () =>
             {
-                while (true)
+                while (!_tikTokLiveClient.Connected)
                 {
                     try
                     {
@@ -65,7 +66,7 @@ namespace aldobot.Handlers
                     catch (Exception)
                     {
                         SetupTikTokLiveClient();
-                        await Task.Delay(5000); // Wait before retrying
+                        await Task.Delay(60000); // Wait before retrying
                     }
                 }
             });
