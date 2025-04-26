@@ -8,13 +8,11 @@ namespace aldobot.Handlers
 {
     internal class TikTokLiveHandler : IHandler
     {
-        private ClientSettings _tikTokClientSettings = new ClientSettings();
         private TikTokLiveClient _tikTokLiveClient;
         private readonly DiscordSocketClient _discordClient;
         private ulong _channelId;
 
         public TikTokLiveHandler(DiscordSocketClient discordClient) {
-            _tikTokClientSettings.SkipRoomInfo = true;
             string userName = Environment.GetEnvironmentVariable("TIKTOK_USERNAME") ?? throw new InvalidOperationException("Username not found in environment variables.");
             _tikTokLiveClient = new TikTokLiveClient(userName, "");
             _discordClient = discordClient;
@@ -50,7 +48,6 @@ namespace aldobot.Handlers
 
         private void SetupTikTokLiveClient()
         {
-            _tikTokClientSettings.SkipRoomInfo = true;
             string userName = Environment.GetEnvironmentVariable("TIKTOK_USERNAME") ?? throw new InvalidOperationException("Username not found in environment variables.");
             _tikTokLiveClient = new TikTokLiveClient(userName, "");
             Connect();
