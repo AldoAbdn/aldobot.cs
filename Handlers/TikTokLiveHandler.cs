@@ -56,10 +56,15 @@ namespace aldobot.Handlers
         {
             await Task.Run(async () =>
             {
-                while (!_tikTokLiveClient.Connected)
+                while (true)
                 {
                     try
                     {
+                        if (_tikTokLiveClient.Connected || _tikTokLiveClient.Connecting)
+                        {
+                            await Task.Delay(60000); // Wait before checking again
+                            continue;
+                        }
                         await _tikTokLiveClient.RunAsync();
                     }
                     catch (Exception)
