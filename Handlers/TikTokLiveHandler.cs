@@ -9,10 +9,11 @@ namespace aldobot.Handlers
     {
         private TikTokLiveClient _tikTokLiveClient;
         private readonly DiscordSocketClient _discordClient;
+        private string userName;
         private ulong _channelId;
 
         public TikTokLiveHandler(DiscordSocketClient discordClient) {
-            string userName = Environment.GetEnvironmentVariable("TIKTOK_USERNAME") ?? throw new InvalidOperationException("Username not found in environment variables.");
+            userName = Environment.GetEnvironmentVariable("TIKTOK_USERNAME") ?? throw new InvalidOperationException("Username not found in environment variables.");
             _tikTokLiveClient = new TikTokLiveClient(userName, "");
             _discordClient = discordClient;
             ConnectEvents();
@@ -37,7 +38,7 @@ namespace aldobot.Handlers
 
         private async void OnConnected(TikTokLiveClient client, bool connected)
         {
-            await SendMessage("Live Stream Started!");
+            await SendMessage($"Live Stream Started! https://www.tiktok.com/@{userName}/live");
         }
 
         private async void OnLiveEnded(TikTokLiveClient client, ControlMessage e)
