@@ -15,11 +15,24 @@ namespace aldobot.Handlers
             _commands = new CommandService();
             var config = new DiscordSocketConfig
             {
-                GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent
+                GatewayIntents = GatewayIntents.All
             };
             Client = new DiscordSocketClient(config);
             Client.MessageReceived += HandleCommandAsync;
+            Client.UserJoined += UserJoined;
+            Client.UserLeft += UserLeft;
             Client.Log += Log;
+        }
+
+        private async Task UserLeft(SocketGuild guild, SocketUser user)
+        {
+            await guild.DefaultChannel.SendMessageAsync($"@everyone Say Goodbye to {user.Username}");
+        }
+
+        private async Task UserJoined(SocketGuildUser user)
+        {
+            await user.Guild.DefaultChannel.SendMessageAsync($"@everyone Welcome {user.Username}");
+            await user.SendMessageAsync("Hello!");
         }
 
         public async Task SetupAsync()
