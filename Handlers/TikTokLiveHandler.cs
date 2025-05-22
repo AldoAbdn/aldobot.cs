@@ -1,5 +1,4 @@
-﻿using Discord;
-using Discord.WebSocket;
+﻿using Discord.WebSocket;
 using TikTokLiveSharp.Client;
 using TikTokLiveSharp.Events;
 
@@ -10,15 +9,12 @@ namespace aldobot.Handlers
         private TikTokLiveClient _tikTokLiveClient;
         private readonly DiscordSocketClient _discordClient;
         private string userName;
-        private ulong _channelId;
 
         public TikTokLiveHandler(DiscordSocketClient discordClient) {
             userName = Environment.GetEnvironmentVariable("TIKTOK_USERNAME") ?? throw new InvalidOperationException("Username not found in environment variables.");
             _tikTokLiveClient = new TikTokLiveClient(userName, "");
             _discordClient = discordClient;
             ConnectEvents();
-            string channelId = Environment.GetEnvironmentVariable("DISCORD_LIVE_CHANNEL_ID") ?? throw new InvalidOperationException("Channel ID not found in environment variables.");
-            _channelId = ulong.Parse(channelId);
         }
 
         private void ConnectEvents()
@@ -29,10 +25,9 @@ namespace aldobot.Handlers
 
         private async Task SendMessage(string message)
         {
-            var channel = await _discordClient.GetChannelAsync(_channelId);
-            if (channel is ITextChannel textChannel)
+            foreach(var channel in _discordClient.Guilds.SelectMany(g => g.TextChannels).Where(c => c.Name.ToLower().Contains("live stream")))
             {
-                await textChannel.SendMessageAsync(message);
+                await channel.SendMessageAsync(message);
             }
         }
 
