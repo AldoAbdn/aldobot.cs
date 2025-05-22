@@ -25,7 +25,7 @@ namespace aldobot.Handlers
 
         private async Task SendMessage(string message)
         {
-            foreach(var channel in _discordClient.Guilds.SelectMany(g => g.TextChannels).Where(c => c.Name.ToLower().Contains("live stream")))
+            foreach(var channel in _discordClient.Guilds.SelectMany(g => g.TextChannels).Where(c => c.Name.ToLower().Contains("live-stream")))
             {
                 await channel.SendMessageAsync(message);
             }
