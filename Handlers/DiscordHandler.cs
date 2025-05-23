@@ -25,7 +25,7 @@ namespace aldobot.Handlers
 
         private async Task UserJoined(SocketGuildUser user)
         {
-            string welcomeMessage = $"Welcome @{user.Username} to {user.Guild.Name}!";
+            string welcomeMessage = $"Welcome {user.Mention}!";
             SocketTextChannel? welcomeChannel = user.Guild.TextChannels.FirstOrDefault(x => x.Name.ToLower().StartsWith("welcome"));
             if (welcomeChannel != null)
             {
